@@ -8,6 +8,25 @@
  * @author msmith
  */
 class msDateTime extends DateTime {
+	protected $initialTimestamp;
+
+	protected $waypoints = array();
+
+	public function __construct($time = null, $object = null) {
+		if($time && is_numeric($time) && $time == intval($time)){
+			$time = date('r', $time);
+		}
+
+		if($object){
+			parent::__construct($time, $object);
+		}elseif($time){
+			parent::__construct($time);
+		}else{
+			parent::__construct();
+		}
+		$this->initialTimestamp = $this->getTimestamp();
+	}
+
 	public function  __toString() {
 		return $this->format('Y-m-d H:i:s');
 	}
@@ -64,11 +83,26 @@ class msDateTime extends DateTime {
 		return $this->firstDayOfQuarter()->modify('+3 months -1 day');
 	}
 
-	public function setWaypoint($point){
+	public function reset(){
+		$this->setTimestamp($this->initialTimestamp);
+	}
 
+	public function setWaypoint($point, $reset = true){
+		$this->waypoints[$point] = $this->getTimestamp();
+		if($reset){
+			$ret = $this->copy();
+			$this->reset();
+		}else{
+			$ret = $this;
+		}
+
+		return $ret;
 	}
 
 	public function waypoint($point){
+		$ret = $this->copy();
+		$ret->setTimestamp($this->waypoints[$point]);
 
+		return $ret;
 	}
 }
