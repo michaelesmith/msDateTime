@@ -35,6 +35,10 @@ class msDateTime extends DateTime {
 		$this->initialTimestamp = $this->getTimestamp();
 	}
 
+	public static function create($time = null, $object = null) {
+		return new self($time, $object);
+	}
+
 	public function  __toString() {
 		return $this->format('Y-m-d H:i:s');
 	}
@@ -131,6 +135,10 @@ class msDateTime extends DateTime {
 	 */
 	public function beginningOfDay() {
 		return $this->setTime(00, 00, 00);
+	}
+
+	public function isBeginningOfDay() {
+		return $this->getTimestamp() == $this->copy()->beginningOfDay()->getTimestamp();
 	}
 
 	/**
