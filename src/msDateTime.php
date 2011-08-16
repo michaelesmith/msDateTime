@@ -22,7 +22,7 @@ class msDateTime extends DateTime {
 
 	public function __construct($time = null, $object = null) {
 		if($time && is_numeric($time) && $time == intval($time)){
-			$time = date('r', $time);
+			$time = '@' . $time;
 		}
 
 		if($object){

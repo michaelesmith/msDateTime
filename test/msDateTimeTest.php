@@ -13,28 +13,28 @@ class msDateTimeTest extends PHPUnit_Framework_TestCase {
 
 	public function testConstruct() {
 		$d = new msDateTime();
-		$this->assertEquals(time(), $d->getTimestamp());
+		$this->assertEquals(time(), $d->getTimestamp(), 'no parameters uses current time');
 
 		$d = new msDateTime($str = '2/5/1980 06:53:37');
-		$this->assertEquals(strtotime($str), $d->getTimestamp());
+		$this->assertEquals(strtotime($str), $d->getTimestamp(), 'passing a str sets tiemstamp to that time using current timezone');
 
 		$d = new msDateTime($time = strtotime('2/5/1980 06:53:37'));
-		$this->assertEquals($time, $d->getTimestamp());
+		$this->assertEquals($time, $d->getTimestamp(), 'given a timestamp it is used');
 
 		$d = new msDateTime($str = 'yesterday');
-		$this->assertEquals(strtotime($str), $d->getTimestamp());
+		$this->assertEquals(strtotime($str), $d->getTimestamp(), 'giving a term ie "yesterday" is valid');
 
 		$d = new msDateTime($str = '+1 month +2 day +1 hour');
-		$this->assertEquals(strtotime($str), $d->getTimestamp());
+		$this->assertEquals(strtotime($str), $d->getTimestamp(), 'giving a string offset like "+1 day" is valid');
 
 		$d = new msDateTime($str = '13:05:19');
-		$this->assertEquals(strtotime($str), $d->getTimestamp());
+		$this->assertEquals(strtotime($str), $d->getTimestamp(), 'giving just a time use today a specificed time');
 
 		$d = new msDateTime($str = 'August 2011');
-		$this->assertEquals(strtotime('8/1/2011'), $d->getTimestamp());
+		$this->assertEquals(strtotime('8/1/2011'), $d->getTimestamp(), 'giving a text month and year is valid');
 
 		$d = new msDateTime('now', new DateTimeZone('America/Chicago'));
-		$this->assertEquals(time(), $d->getTimestamp());
+		$this->assertEquals(time(), $d->getTimestamp(), 'preserves compatibility given a DateTimeZone as second parameter');
 	}
 
 	/**
