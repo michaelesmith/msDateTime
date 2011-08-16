@@ -7,7 +7,7 @@
  *
  * @author msmith
  */
-require_once dirname(__FILE__) . '/../src/msDateTime.php';
+require_once dirname(__FILE__) . '/../lib/msDateTime.php';
 
 class msDateTimeTest extends PHPUnit_Framework_TestCase {
 
@@ -35,6 +35,15 @@ class msDateTimeTest extends PHPUnit_Framework_TestCase {
 
 		$d = new msDateTime('now', new DateTimeZone('America/Chicago'));
 		$this->assertEquals(time(), $d->getTimestamp(), 'preserves compatibility given a DateTimeZone as second parameter');
+	}
+
+	/**
+	 * @depends testConstruct
+	 */
+	public function testCreate() {
+		$d = msDateTime::create($str = '2/5/1980 06:53:37');
+		$this->assertInstanceOf('msDateTime', $d);
+		$this->assertEquals(strtotime($str), $d->getTimestamp());
 	}
 
 	/**
@@ -88,6 +97,21 @@ class msDateTimeTest extends PHPUnit_Framework_TestCase {
 
 	/**
 	 * @depends testConstruct
+	 * @depends testBeginningOfDay
+	 */
+	public function testIsBeginningOfDay() {
+		$d = new msDateTime($str = '2/5/1980 06:53:37');
+		$this->assertFalse($d->isBeginningOfDay());
+
+		$d = new msDateTime($str = '2/5/1980 00:00:00');
+		$this->assertTrue($d->isBeginningOfDay());
+
+		$d = new msDateTime($str = '2/5/1980 23:59:59');
+		$this->assertFalse($d->isBeginningOfDay());
+	}
+
+	/**
+	 * @depends testConstruct
 	 * @depends testDump
 	 */
 	public function testEndOfDay() {
@@ -102,10 +126,40 @@ class msDateTimeTest extends PHPUnit_Framework_TestCase {
 
 	/**
 	 * @depends testConstruct
+	 * @depends testEndOfDay
+	 */
+	public function testIsEndOfDay() {
+		$d = new msDateTime($str = '2/5/1980 06:53:37');
+		$this->assertFalse($d->isEndOfDay());
+
+		$d = new msDateTime($str = '2/5/1980 00:00:00');
+		$this->assertFalse($d->isEndOfDay());
+
+		$d = new msDateTime($str = '2/5/1980 23:59:59');
+		$this->assertTrue($d->isEndOfDay());
+	}
+
+	/**
+	 * @depends testConstruct
 	 */
 	public function testFirstDayOfWeek() {
 		$d = new msDateTime($str = '8/10/2011');
 		$this->assertEquals('2011-08-07', $d->firstDayOfWeek()->format('Y-m-d'));
+	}
+
+	/**
+	 * @depends testConstruct
+	 * @depends testFirstDayOfWeek
+	 */
+	public function testIsFirstDayOfWeek() {
+		$d = new msDateTime($str = '2/2/2011 06:53:37');
+		$this->assertFalse($d->isFirstDayOfWeek());
+
+		$d = new msDateTime($str = '1/30/2011 00:00:00');
+		$this->assertTrue($d->isFirstDayOfWeek());
+
+		$d = new msDateTime($str = '2/5/2011 23:59:59');
+		$this->assertFalse($d->isFirstDayOfWeek());
 	}
 
 	/**
@@ -118,10 +172,40 @@ class msDateTimeTest extends PHPUnit_Framework_TestCase {
 
 	/**
 	 * @depends testConstruct
+	 * @depends testFinalDayOfWeek
+	 */
+	public function testIsFinalDayOfWeek() {
+		$d = new msDateTime($str = '2/2/2011 06:53:37');
+		$this->assertFalse($d->isFinalDayOfWeek());
+
+		$d = new msDateTime($str = '1/30/2011 00:00:00');
+		$this->assertFalse($d->isFinalDayOfWeek());
+
+		$d = new msDateTime($str = '2/5/2011 23:59:59');
+		$this->assertTrue($d->isFinalDayOfWeek());
+	}
+
+	/**
+	 * @depends testConstruct
 	 */
 	public function testFirstDayOfMonth() {
 		$d = new msDateTime($str = '8/10/2011');
 		$this->assertEquals('2011-08-01', $d->firstDayOfMonth()->format('Y-m-d'));
+	}
+
+	/**
+	 * @depends testConstruct
+	 * @depends testFirstDayOfMonth
+	 */
+	public function testIsFirstDayOfMonth() {
+		$d = new msDateTime($str = '2/5/2011 06:53:37');
+		$this->assertFalse($d->isFirstDayOfMonth());
+
+		$d = new msDateTime($str = '2/1/2011 00:00:00');
+		$this->assertTrue($d->isFirstDayOfMonth());
+
+		$d = new msDateTime($str = '2/28/2011 23:59:59');
+		$this->assertFalse($d->isFirstDayOfMonth());
 	}
 
 	/**
@@ -136,6 +220,27 @@ class msDateTimeTest extends PHPUnit_Framework_TestCase {
 
 		$d = new msDateTime($str = '2/5/2008');
 		$this->assertEquals('2008-02-29', $d->finalDayOfMonth()->format('Y-m-d'));
+	}
+
+	/**
+	 * @depends testConstruct
+	 * @depends testFinalDayOfMonth
+	 */
+	public function testIsFinalDayOfMonth() {
+		$d = new msDateTime($str = '2/5/2011 06:53:37');
+		$this->assertFalse($d->isFinalDayOfMonth());
+
+		$d = new msDateTime($str = '2/1/2011 00:00:00');
+		$this->assertFalse($d->isFinalDayOfMonth());
+
+		$d = new msDateTime($str = '2/28/2008 23:59:59');
+		$this->assertFalse($d->isFinalDayOfMonth());
+
+		$d = new msDateTime($str = '2/29/2008 23:59:59');
+		$this->assertTrue($d->isFinalDayOfMonth());
+
+		$d = new msDateTime($str = '2/28/2011 23:59:59');
+		$this->assertTrue($d->isFinalDayOfMonth());
 	}
 
 	/**
@@ -187,6 +292,21 @@ class msDateTimeTest extends PHPUnit_Framework_TestCase {
 
 	/**
 	 * @depends testConstruct
+	 * @depends testFirstDayOfQuarter
+	 */
+	public function testIsFirstDayOfQuarter() {
+		$d = new msDateTime($str = '2/5/2011 06:53:37');
+		$this->assertFalse($d->isFirstDayOfQuarter());
+
+		$d = new msDateTime($str = '1/1/2011 00:00:00');
+		$this->assertTrue($d->isFirstDayOfQuarter());
+
+		$d = new msDateTime($str = '3/31/2011 23:59:59');
+		$this->assertFalse($d->isFirstDayOfQuarter());
+	}
+
+	/**
+	 * @depends testConstruct
 	 * @depends testDump
 	 */
 	public function testFinalDayOfQuarter() {
@@ -207,6 +327,21 @@ class msDateTimeTest extends PHPUnit_Framework_TestCase {
 
 		$d = new msDateTime($str = '12/31/2011');
 		$this->assertEquals(date('r', strtotime('12/31/2011')), $d->finalDayOfQuarter()->dump());
+	}
+
+	/**
+	 * @depends testConstruct
+	 * @depends testFinalDayOfQuarter
+	 */
+	public function testIsFinalDayOfQuarter() {
+		$d = new msDateTime($str = '2/5/2011 06:53:37');
+		$this->assertFalse($d->isFinalDayOfQuarter());
+
+		$d = new msDateTime($str = '1/1/2011 00:00:00');
+		$this->assertFalse($d->isFinalDayOfQuarter());
+
+		$d = new msDateTime($str = '3/31/2011 23:59:59');
+		$this->assertTrue($d->isFinalDayOfQuarter());
 	}
 
 	/**
