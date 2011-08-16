@@ -80,6 +80,10 @@ class msDateTimeTest extends PHPUnit_Framework_TestCase {
 		$d = new msDateTime($str = '2/5/1980 06:53:37');
 		$this->assertEquals(date('r', strtotime('2/5/1980 00:00:00')), $d->beginningOfDay()->dump());
 		$this->assertEquals(date('Y-m-d', strtotime($str . '-1 day')), $d->modify('-1 second')->format('Y-m-d'));
+
+		$d = new msDateTime($str = '3/13/2011 06:53:37');
+		$this->assertEquals(date('r', strtotime('3/13/2011 00:00:00')), $d->beginningOfDay()->dump(), 'spans daylight savings time');
+		$this->assertEquals(date('Y-m-d', strtotime($str . '-1 day')), $d->modify('-1 second')->format('Y-m-d'));
 	}
 
 	/**
@@ -90,6 +94,10 @@ class msDateTimeTest extends PHPUnit_Framework_TestCase {
 		$d = new msDateTime($str = '2/5/1980 06:53:37');
 		$this->assertEquals(date('r', strtotime('2/5/1980 23:59:59')), $d->endOfDay()->dump());
 		$this->assertEquals(date('Y-m-d', strtotime($str . '+1 day')), $d->modify('+1 second')->format('Y-m-d'));
+
+		$d = new msDateTime($str = '11/6/2011 00:53:37');
+		$this->assertEquals(date('r', strtotime('11/6/2011 23:59:59')), $d->endOfDay()->dump());
+		$this->assertEquals(date('Y-m-d', strtotime($str . '+1 day')), $d->modify('+1 second')->format('Y-m-d'), 'spans daylight savings time');
 	}
 
 	/**
@@ -280,6 +288,9 @@ class msDateTimeTest extends PHPUnit_Framework_TestCase {
 
 		$d2b = $d->setTimestamp(strtotime('-1 month'))->setWaypoint('p2');
 		$this->assertEquals($d2b->dump(), $d->waypoint('p2')->dump(), 'can overwirte waypoint');
+
+		$this->setExpectedException('RuntimeException', 'Undefined waypoint');
+		$d->waypoint('noExisit');
 	}
 
 }
