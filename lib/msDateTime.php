@@ -3,7 +3,7 @@
 /**
  * An extension of the PHP native DateTime object to provide powerful convenience methods
  *
- * @version 0.1
+ * @version 0.2
  *
  * @author msmith
  */
@@ -20,9 +20,16 @@ class msDateTime extends DateTime {
 	 */
 	protected $waypoints = array();
 
+	/**
+	 * Creates a new msDateTime object
+	 *
+	 * @param str $time
+	 * @param DateTimeZone $object
+	 * @return msDateTime
+	 */
 	public function __construct($time = null, $object = null) {
 		if($time && is_numeric($time) && $time == intval($time)){
-			$time = date('r', $time);
+			$time = '@' . $time;
 		}
 
 		if($object){
@@ -35,12 +42,28 @@ class msDateTime extends DateTime {
 		$this->initialTimestamp = $this->getTimestamp();
 	}
 
+	/**
+	 * Creates a new msDateTime object inline to preserve fluid calls
+	 * 
+	 * @param str $time
+	 * @param DateTimeZone $object
+	 * @return msDateTime
+	 */
+	public static function create($time = null, $object = null) {
+		return new self($time, $object);
+	}
+
+	/**
+	 * Returns the current timestamp in "Y-m-d H:i:s" format
+	 * 
+	 * @return str
+	 */
 	public function  __toString() {
 		return $this->format('Y-m-d H:i:s');
 	}
 
 	/**
-	 *	Creates a copy of the current object
+	 * Creates a copy of the current object
 	 * 
 	 * @return msDateTime
 	 */
@@ -81,9 +104,11 @@ class msDateTime extends DateTime {
 
 	/**
 	 * Resets the internal time stamp to the initial timestamp
+	 * 
+	 * @return msDateTime
 	 */
 	public function reset(){
-		$this->setTimestamp($this->initialTimestamp);
+		return $this->setTimestamp($this->initialTimestamp);
 	}
 
 	/**
@@ -134,12 +159,30 @@ class msDateTime extends DateTime {
 	}
 
 	/**
+	 * Returns true if the current timestamp is the beginning of the day
+	 * 
+	 * @return bool
+	 */
+	public function isBeginningOfDay() {
+		return $this->getTimestamp() == $this->copy()->beginningOfDay()->getTimestamp();
+	}
+
+	/**
 	 * Sets the internal timestamp to one second before midnight
 	 *
 	 * @return msDateTime
 	 */
 	public function endOfDay() {
 		return $this->setTime(23, 59, 59);
+	}
+
+	/**
+	 * Returns true if the current timestamp is the end of the day
+	 *
+	 * @return bool
+	 */
+	public function isEndOfDay() {
+		return $this->getTimestamp() == $this->copy()->endOfDay()->getTimestamp();
 	}
 
 	/**
@@ -152,12 +195,30 @@ class msDateTime extends DateTime {
 	}
 
 	/**
+	 * Returns true if the current timestamp is the first day of the week
+	 *
+	 * @return bool
+	 */
+	public function isFirstDayOfWeek() {
+		return $this->getTimestamp() == $this->copy()->firstDayOfWeek()->getTimestamp();
+	}
+
+	/**
 	 * Sets the internal timestamp to Saturday of the current week
 	 *
 	 * @return msDateTime
 	 */
 	public function finalDayOfWeek(){
 		return $this->modify(sprintf('+%d days', 6 - $this->format('w')));
+	}
+
+	/**
+	 * Returns true if the current timestamp is the final day of the week
+	 *
+	 * @return bool
+	 */
+	public function isFinalDayOfWeek() {
+		return $this->getTimestamp() == $this->copy()->finalDayOfWeek()->getTimestamp();
 	}
 
 	/**
@@ -170,12 +231,30 @@ class msDateTime extends DateTime {
 	}
 
 	/**
+	 * Returns true if the current timestamp is the first day of the month
+	 *
+	 * @return bool
+	 */
+	public function isFirstDayOfMonth() {
+		return $this->getTimestamp() == $this->copy()->firstDayOfMonth()->getTimestamp();
+	}
+
+	/**
 	 * Sets the internal timestamp to the last day of the current month
 	 *
 	 * @return msDateTime
 	 */
 	public function finalDayOfMonth(){
 		return $this->firstDayOfMonth()->modify('+1 month -1 day');
+	}
+
+	/**
+	 * Returns true if the current timestamp is the final day of the month
+	 *
+	 * @return bool
+	 */
+	public function isFinalDayOfMonth() {
+		return $this->getTimestamp() == $this->copy()->finalDayOfMonth()->getTimestamp();
 	}
 
 	/**
@@ -197,6 +276,15 @@ class msDateTime extends DateTime {
 	}
 
 	/**
+	 * Returns true if the current timestamp is the first day of the current quarter
+	 *
+	 * @return bool
+	 */
+	public function isFirstDayOfQuarter() {
+		return $this->getTimestamp() == $this->copy()->firstDayOfQuarter()->getTimestamp();
+	}
+
+	/**
 	 * Sets the internal timestamp to the last day of the current quarter (3/31, 6/30, 9/30 or 12/31)
 	 *
 	 * @return msDateTime
@@ -204,4 +292,14 @@ class msDateTime extends DateTime {
 	public function finalDayOfQuarter(){
 		return $this->firstDayOfQuarter()->modify('+3 months -1 day');
 	}
+
+	/**
+	 * Returns true if the current timestamp is the final day of the current quarter
+	 *
+	 * @return bool
+	 */
+	public function isFinalDayOfQuarter() {
+		return $this->getTimestamp() == $this->copy()->finalDayOfQuarter()->getTimestamp();
+	}
+
 }
