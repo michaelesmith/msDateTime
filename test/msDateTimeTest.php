@@ -1,10 +1,8 @@
 <?php
 
 /**
- * Description of msDateTimeTest
- *
- * @todo add documentation
- *
+ * @version 0.2
+ * 
  * @author msmith
  */
 require_once dirname(__FILE__) . '/../lib/msDateTime.php';
