@@ -104,9 +104,11 @@ class msDateTime extends DateTime {
 
 	/**
 	 * Resets the internal time stamp to the initial timestamp
+	 * 
+	 * @return msDateTime
 	 */
 	public function reset(){
-		$this->setTimestamp($this->initialTimestamp);
+		return $this->setTimestamp($this->initialTimestamp);
 	}
 
 	/**

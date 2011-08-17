@@ -364,8 +364,9 @@ class msDateTimeTest extends PHPUnit_Framework_TestCase {
 	public function testReset() {
 		$d = new msDateTime($str = '2/5/1980 06:53:37');
 		$d->setTimestamp(time());
-		$d->reset();
+		$d2 = $d->reset();
 		$this->assertEquals(date('r', strtotime($str)), $d->dump());
+		$this->assertSame($d, $d2);
 	}
 
 	/**
