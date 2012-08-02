@@ -1,5 +1,7 @@
 <?php
 
+namespace MS\DateTime;
+
 /**
  * An extension of the PHP native DateTime object to provide powerful convenience methods
  *
@@ -7,7 +9,7 @@
  *
  * @author msmith
  */
-class msDateTime extends DateTime {
+class DateTime extends \DateTime {
 
 	/**
 	 * @var int
@@ -44,7 +46,7 @@ class msDateTime extends DateTime {
 
 	/**
 	 * Creates a new msDateTime object inline to preserve fluid calls
-	 * 
+	 *
 	 * @param str $time
 	 * @param DateTimeZone $object
 	 * @return msDateTime
@@ -55,7 +57,7 @@ class msDateTime extends DateTime {
 
 	/**
 	 * Returns the current timestamp in "Y-m-d H:i:s" format
-	 * 
+	 *
 	 * @return str
 	 */
 	public function  __toString() {
@@ -64,7 +66,7 @@ class msDateTime extends DateTime {
 
 	/**
 	 * Creates a copy of the current object
-	 * 
+	 *
 	 * @return msDateTime
 	 */
 	public function copy(){
@@ -73,7 +75,7 @@ class msDateTime extends DateTime {
 
 	/**
 	 * Compares this object to $msDateTime2 by returning the difference in seconds
-	 * 
+	 *
 	 * @param msDateTime $msDateTime2
 	 * @return int
 	 */
@@ -83,7 +85,7 @@ class msDateTime extends DateTime {
 
 	/**
 	 * Outputs the current timestamp in a general format. Should only be used for debugging.
-	 * 
+	 *
 	 * @return str
 	 */
 	public function dump() {
@@ -104,7 +106,7 @@ class msDateTime extends DateTime {
 
 	/**
 	 * Resets the internal time stamp to the initial timestamp
-	 * 
+	 *
 	 * @return msDateTime
 	 */
 	public function reset(){
@@ -140,7 +142,7 @@ class msDateTime extends DateTime {
 	 */
 	public function waypoint($point){
 		if(!isset($this->waypoints[$point])){
-			throw new RuntimeException(sprintf('Undefined waypoint: "%s" given', $point));
+			throw new \RuntimeException(sprintf('Undefined waypoint: "%s" given', $point));
 		}
 
 		$ret = $this->copy();
@@ -151,7 +153,7 @@ class msDateTime extends DateTime {
 
 	/**
 	 * Sets the internal timestamp to midnight of the current day
-	 * 
+	 *
 	 * @return msDateTime
 	 */
 	public function beginningOfDay() {
@@ -160,7 +162,7 @@ class msDateTime extends DateTime {
 
 	/**
 	 * Returns true if the current timestamp is the beginning of the day
-	 * 
+	 *
 	 * @return bool
 	 */
 	public function isBeginningOfDay() {
@@ -259,7 +261,7 @@ class msDateTime extends DateTime {
 
 	/**
 	 * Returns the current quarter number (1, 2, 3 or 4)
-	 * 
+	 *
 	 * @return int
 	 */
 	public function getQuarter(){

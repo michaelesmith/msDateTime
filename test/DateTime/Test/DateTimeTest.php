@@ -2,12 +2,14 @@
 
 /**
  * @version 0.2
- * 
+ *
  * @author msmith
  */
-require_once dirname(__FILE__) . '/../lib/msDateTime.php';
+require_once dirname(__FILE__) . '/../../../src/DateTime/DateTime.php';
 
-class msDateTimeTest extends PHPUnit_Framework_TestCase {
+use MS\DateTime\DateTime as msDateTime;
+
+class DateTimeTest extends PHPUnit_Framework_TestCase {
 
 	public function testConstruct() {
 		$d = new msDateTime();
@@ -40,7 +42,7 @@ class msDateTimeTest extends PHPUnit_Framework_TestCase {
 	 */
 	public function testCreate() {
 		$d = msDateTime::create($str = '2/5/1980 06:53:37');
-		$this->assertInstanceOf('msDateTime', $d);
+		$this->assertInstanceOf('MS\\DateTime\\DateTime', $d);
 		$this->assertEquals(strtotime($str), $d->getTimestamp());
 	}
 
