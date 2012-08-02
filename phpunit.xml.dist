@@ -1,8 +1,10 @@
 <phpunit backupGlobals="false"
-			colors="true">
-	<testsuites>
-	  <testsuite name="msDateTime Test Suite">
-		 <directory>test/</directory>
-	  </testsuite>
-	</testsuites>
+         colors="true"
+         bootstrap="test/bootstrap.php"
+        >
+    <testsuites>
+        <testsuite name="msDateTime Test Suite">
+            <directory>test/</directory>
+        </testsuite>
+    </testsuites>
 </phpunit>

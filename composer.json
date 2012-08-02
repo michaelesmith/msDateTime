@@ -1,0 +1,26 @@
+{
+    "name": "michaelesmith/datetime",
+    "version": "0.4.1",
+    "description": "Extends PHP's DateTime class with convenience methods",
+    "keywords": ["datetime", "date", "time"],
+    "homepage": "http://michaelsmithonline.blogspot.com/p/datetime.html",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Michael Smith",
+            "email": "sitecross@gmail.com",
+            "homepage": "http://michaelsmithonline.blogspot.com/"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/michaelesmith/msDateTime/issues"
+    },
+    "require": {
+        "php": ">=5.3.2"
+    },
+    "autoload": {
+        "psr-0": { "MS\\DateTime": "src/" }
+    },
+    "minimum-stability": "beta"
+}
