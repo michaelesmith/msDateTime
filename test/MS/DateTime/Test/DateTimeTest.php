@@ -5,7 +5,7 @@
  *
  * @author msmith
  */
-require_once dirname(__FILE__) . '/../../../src/DateTime/DateTime.php';
+require_once dirname(__FILE__) . '/../../../../src/MS/DateTime/DateTime.php';
 
 use MS\DateTime\DateTime as msDateTime;
 
