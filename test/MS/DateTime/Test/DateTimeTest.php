@@ -5,11 +5,13 @@
  *
  * @author msmith
  */
-require_once dirname(__FILE__) . '/../../../../src/MS/DateTime/DateTime.php';
+
+namespace MS\DateTime\Test;
 
 use MS\DateTime\DateTime as msDateTime;
+use \DateTimeZone;
 
-class DateTimeTest extends PHPUnit_Framework_TestCase {
+class DateTimeTest extends TestCase {
 
 	public function testConstruct() {
 		$d = new msDateTime();
