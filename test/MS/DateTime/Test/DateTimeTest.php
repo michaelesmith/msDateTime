@@ -83,16 +83,6 @@ class DateTimeTest extends TestCase
      * @depends testConstruct
      * @depends testDump
      */
-    public function testStrToTime()
-    {
-        $d = new msDateTime($str = '2/5/1980 06:53:37');
-        $this->assertEquals(date('r', strtotime('2/5/1980 00:00:00')), $d->strtotime('00:00:00')->dump());
-    }
-
-    /**
-     * @depends testConstruct
-     * @depends testDump
-     */
     public function testBeginningOfDay()
     {
         $d = new msDateTime($str = '2/5/1980 06:53:37');
@@ -381,82 +371,6 @@ class DateTimeTest extends TestCase
         $this->assertEquals(-1, $d1->compare($d2));
         $this->assertEquals(1, $d2->compare($d1));
         $this->assertEquals(0, $d2->compare($d3));
-    }
-
-    /**
-     * @depends testConstruct
-     * @depends testDump
-     */
-    public function testReset()
-    {
-        $d = new msDateTime($str = '2/5/1980 06:53:37');
-        $d->setTimestamp(time());
-        $d2 = $d->reset();
-        $this->assertEquals(date('r', strtotime($str)), $d->dump());
-        $this->assertSame($d, $d2);
-    }
-
-    /**
-     * @depends testConstruct
-     * @depends testDump
-     */
-    public function testSetWaypoint()
-    {
-        $d = new msDateTime($str = '2/5/1980 06:53:37');
-        $d->setTimestamp(time());
-        $d2 = $d->setWaypoint('p1');
-        $this->assertEquals(date('r', strtotime($str)), $d->dump(), 'internal timestamp reset');
-        $this->assertEquals(date('r'), $d2->dump(), 'returned object maintained state');
-        $this->assertNotSame($d2, $d, 'returned object is not the same as original');
-    }
-
-    /**
-     * @depends testConstruct
-     * @depends testDump
-     */
-    public function testSetWaypointNoReset()
-    {
-        $d = new msDateTime($str = '2/5/1980 06:53:37');
-        $d->setTimestamp(time());
-        $d2 = $d->setWaypoint('p1', false);
-        $this->assertEquals(date('r'), $d->dump(), 'internal timestamp not reset');
-        $this->assertEquals(date('r'), $d2->dump(), 'returned object maintained state');
-        $this->assertSame($d2, $d, 'returned object is the same as original');
-    }
-
-    /**
-     * @depends testConstruct
-     * @depends testDump
-     * @depends testSetWaypoint
-     */
-    public function testWaypoint()
-    {
-        $d = new msDateTime($str = '2/5/1980 06:53:37');
-        $d1 = $d->setTimestamp($t1 = time())->setWaypoint('p1');
-        $d2 = $d->setTimestamp($t2 = strtotime('+1 month'))->setWaypoint('p2');
-        $d3 = $d->setTimestamp($t3 = strtotime('+1 year'))->setWaypoint('p3');
-
-        $this->assertEquals(date('r', $t1), $d1->dump());
-
-        $this->assertNotEquals($d1, $d);
-        $this->assertNotEquals($d2, $d);
-        $this->assertNotEquals($d3, $d);
-
-        $this->assertEquals($d1->dump(), $d->waypoint('p1')->dump());
-        $this->assertEquals($d2->dump(), $d->waypoint('p2')->dump());
-        $this->assertEquals($d3->dump(), $d->waypoint('p3')->dump());
-
-        $this->assertNotSame($d1, $d, 'different object returned');
-        $this->assertNotSame($d2, $d, 'different object returned');
-        $this->assertNotSame($d3, $d, 'different object returned');
-
-        $this->assertEquals(date('r', strtotime($str)), $d->dump(), 'internal timestamp unchanged');
-
-        $d2b = $d->setTimestamp(strtotime('-1 month'))->setWaypoint('p2');
-        $this->assertEquals($d2b->dump(), $d->waypoint('p2')->dump(), 'can overwirte waypoint');
-
-        $this->setExpectedException('RuntimeException', 'Undefined waypoint');
-        $d->waypoint('noExisit');
     }
 
 }
