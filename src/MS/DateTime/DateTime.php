@@ -256,6 +256,9 @@ class DateTime extends \DateTime
         return $this->getTimestamp() == $this->copy()->finalDayOfQuarter()->getTimestamp();
     }
 
+    /**
+     * @return bool
+     */
     public function isToday()
     {
         $dt = new self();
@@ -263,6 +266,9 @@ class DateTime extends \DateTime
         return $this->format('Y-m-d') == $dt->format('Y-m-d');
     }
 
+    /**
+     * @return bool
+     */
     public function isTomorrow()
     {
         $dt = new self('+1 day');
@@ -270,6 +276,9 @@ class DateTime extends \DateTime
         return $this->format('Y-m-d') == $dt->format('Y-m-d');
     }
 
+    /**
+     * @return bool
+     */
     public function isYesterday()
     {
         $dt = new self('-1 day');
@@ -277,6 +286,11 @@ class DateTime extends \DateTime
         return $this->format('Y-m-d') == $dt->format('Y-m-d');
     }
 
+    /**
+     * Uses ISO-8601 weeks Monday - Sunday
+     *
+     * @return bool
+     */
     public function isCurrentWeek()
     {
         $dt = new self();
@@ -284,6 +298,9 @@ class DateTime extends \DateTime
         return $this->format('Y-W') == $dt->format('Y-W');
     }
 
+    /**
+     * @return bool
+     */
     public function isCurrentMonth()
     {
         $dt = new self();
@@ -291,6 +308,9 @@ class DateTime extends \DateTime
         return $this->format('Y-m') == $dt->format('Y-m');
     }
 
+    /**
+     * @return bool
+     */
     public function isCurrentYear()
     {
         $dt = new self();
