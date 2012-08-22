@@ -373,4 +373,94 @@ class DateTimeTest extends TestCase
         $this->assertEquals(0, $d2->compare($d3));
     }
 
+    /**
+     * @depends testConstruct
+     */
+    public function testIsToday()
+    {
+        $d1 = new msDateTime();
+        $d1->modify($offset = ' -' . floor($d1->format('H') / 2) . ' hours');
+        $d2 = new msDateTime('-1 day' . $offset);
+        $d3 = new msDateTime('+1 day' . $offset);
+
+        $this->assertTrue($d1->isToday(), 'true for today');
+        $this->assertFalse($d2->isToday(), 'false for yesterday');
+        $this->assertFalse($d3->isToday(), 'false for tomorrow');
+    }
+
+    /**
+     * @depends testConstruct
+     */
+    public function testIsTomorrow()
+    {
+        $d1 = new msDateTime();
+        $d1->modify($offset = ' -' . floor($d1->format('H') / 2) . ' hours');
+        $d2 = new msDateTime('-1 day' . $offset);
+        $d3 = new msDateTime('+1 day' . $offset);
+
+        $this->assertFalse($d1->isTomorrow(), 'false for today');
+        $this->assertFalse($d2->isTomorrow(), 'false for yesterday');
+        $this->assertTrue($d3->isTomorrow(), 'true for tomorrow');
+    }
+
+    /**
+     * @depends testConstruct
+     */
+    public function testIsYesterday()
+    {
+        $d1 = new msDateTime();
+        $d1->modify($offset = ' -' . floor($d1->format('H') / 2) . ' hours');
+        $d2 = new msDateTime('-1 day' . $offset);
+        $d3 = new msDateTime('+1 day' . $offset);
+
+        $this->assertFalse($d1->isYesterday(), 'false for today');
+        $this->assertTrue($d2->isYesterday(), 'true for yesterday');
+        $this->assertFalse($d3->isYesterday(), 'false for tomorrow');
+    }
+
+    /**
+     * @depends testConstruct
+     */
+    public function testIsCurrentWeek()
+    {
+        $d1 = new msDateTime();
+        $d1->modify($offset = ' -' . floor($d1->format('N') / 2) . ' days');
+        $d2 = new msDateTime('-7 days' . $offset);
+        $d3 = new msDateTime('+7 days' . $offset);
+
+        $this->assertTrue($d1->isCurrentWeek(), 'true for this week');
+        $this->assertFalse($d2->isCurrentWeek(), 'false for last week');
+        $this->assertFalse($d3->isCurrentWeek(), 'false for next week');
+    }
+
+    /**
+     * @depends testConstruct
+     */
+    public function testIsCurrentMonth()
+    {
+        $d1 = new msDateTime();
+        $d1->modify($offset = ' -' . floor($d1->format('j') / 2) . ' days');
+        $d2 = new msDateTime('-1 month' . $offset);
+        $d3 = new msDateTime('+1 month' . $offset);
+
+        $this->assertTrue($d1->isCurrentMonth(), 'true for this month');
+        $this->assertFalse($d2->isCurrentMonth(), 'false for last month');
+        $this->assertFalse($d3->isCurrentMonth(), 'false for next month');
+    }
+
+    /**
+     * @depends testConstruct
+     */
+    public function testIsCurrentYear()
+    {
+        $d1 = new msDateTime();
+        $d1->modify($offset = ' -' . ceil($d1->format('z') / 2) . ' days');
+        $d2 = new msDateTime('-1 year' . $offset);
+        $d3 = new msDateTime('+1 year' . $offset);
+
+        $this->assertTrue($d1->isCurrentYear(), 'true for this year');
+        $this->assertFalse($d2->isCurrentYear(), 'false for last week');
+        $this->assertFalse($d3->isCurrentYear(), 'false for next week');
+    }
+
 }

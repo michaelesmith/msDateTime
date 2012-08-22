@@ -256,4 +256,46 @@ class DateTime extends \DateTime
         return $this->getTimestamp() == $this->copy()->finalDayOfQuarter()->getTimestamp();
     }
 
+    public function isToday()
+    {
+        $dt = new self();
+
+        return $this->format('Y-m-d') == $dt->format('Y-m-d');
+    }
+
+    public function isTomorrow()
+    {
+        $dt = new self('+1 day');
+
+        return $this->format('Y-m-d') == $dt->format('Y-m-d');
+    }
+
+    public function isYesterday()
+    {
+        $dt = new self('-1 day');
+
+        return $this->format('Y-m-d') == $dt->format('Y-m-d');
+    }
+
+    public function isCurrentWeek()
+    {
+        $dt = new self();
+
+        return $this->format('Y-W') == $dt->format('Y-W');
+    }
+
+    public function isCurrentMonth()
+    {
+        $dt = new self();
+
+        return $this->format('Y-m') == $dt->format('Y-m');
+    }
+
+    public function isCurrentYear()
+    {
+        $dt = new self();
+
+        return $this->format('Y') == $dt->format('Y');
+    }
+
 }
