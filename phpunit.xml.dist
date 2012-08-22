@@ -13,12 +13,12 @@
             <directory>docs</directory>
         </blacklist>
     </filter>
-    <logging>
-        <log type="coverage-html" target="build/docs/coverage" charset="UTF-8" yui="true" />
-        <log type="coverage-php" target="build/docs/coverage.serialized"/>
-        <log type="json" target="build/docs/logfile.json"/>
-        <log type="junit" target="build/docs/logfile.xml"/>
-        <log type="testdox-html" target="build/docs/testdox.html"/>
-        <log type="testdox-text" target="build/docs/testdox.txt"/>
-    </logging>
+    <!--<logging>-->
+        <!--<log type="coverage-html" target="build/docs/coverage" charset="UTF-8" yui="true" />-->
+        <!--<log type="coverage-php" target="build/docs/coverage.serialized"/>-->
+        <!--<log type="json" target="build/docs/logfile.json"/>-->
+        <!--<log type="junit" target="build/docs/logfile.xml"/>-->
+        <!--<log type="testdox-html" target="build/docs/testdox.html"/>-->
+        <!--<log type="testdox-text" target="build/docs/testdox.txt"/>-->
+    <!--</logging>-->
 </phpunit>
