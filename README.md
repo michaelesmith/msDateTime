@@ -6,6 +6,30 @@ What is msDateTime?
 
 An extension of the PHP native DateTime object to provide powerful convenience methods.
 
+Installation
+------------
+
+### Use Composer (*recommended*)
+
+The recommended way to install msDateTime is through composer.
+
+If you don't have Composer yet, download it following the instructions on
+http://getcomposer.org/ or just run the following command:
+
+    curl -s http://getcomposer.org/installer | php
+
+Just create a `composer.json` file for your project:
+
+``` json
+{
+    "require": {
+        "michaelesmith/datetime": "*"
+    }
+}
+```
+
+For more info on composer see https://github.com/composer/composer
+
 Examples
 --------
 
@@ -13,35 +37,58 @@ Examples
 
     $d = new msDateTime('2/5/1980 18:53:37'); //any string you could use with php's native DateTime
     var_dump($d->format('l F j @ g:ia')); //any formating accepted by php's date()
-	 // string(27) "Tuesday February 5 @ 6:53pm"
-	 var_dump($d->dump()); //show current timestamp human readable for debugging
-	 // string(31) "Tue, 05 Feb 1980 18:53:37 -0600"
+    // string(27) "Tuesday February 5 @ 6:53pm"
+    var_dump($d->dump()); //show current timestamp human readable for debugging
+    // string(31) "Tue, 05 Feb 1980 18:53:37 -0600"
 
-###Convenience methods
+###Convenience methods example
 
-	 $d = new msDateTime();
-	 var_dump($d->modify('-1 year +3 days')->dump());
-	 // string(31) "Thu, 19 Aug 2010 22:38:39 -0500"
-	 var_dump($d->finalDayOfQuarter()->endOfDay()->dump());
-	 // string(31) "Thu, 30 Sep 2010 23:59:59 -0500"
-	 var_dump($d->reset()->dump()); //internal timestamp can be reset to initial
-	 // string(31) "Tue, 16 Aug 2011 22:38:39 -0500"
+    $d = new msDateTime();
+    var_dump($d->modify('-1 year +3 days')->dump());
+    // string(31) "Thu, 19 Aug 2010 22:38:39 -0500"
+    var_dump($d->finalDayOfQuarter()->endOfDay()->dump());
+    // string(31) "Thu, 30 Sep 2010 23:59:59 -0500"
+    var_dump($d->reset()->dump()); //internal timestamp can be reset to initial
+    // string(31) "Tue, 16 Aug 2011 22:38:39 -0500"
 
-###Need timestamps for the beginning and end of the current week?
+Complete list of methods
+------------------------
 
-#Waypoints can be used to record and quickly return to a given timestamp. The object is reset to initial timestamp when setting a waypoint.
+###Update
+* public function beginningOfDay()
+* public function endOfDay()
+* public function firstDayOfWeek()  //Sets to Sunday
+* public function finalDayOfWeek()  //Sets to Saturday
+* public function firstDayOfMonth()
+* public function finalDayOfMonth()
+* public function firstDayOfQuarter()
+* public function finalDayOfQuarter()
+* public function isFinalDayOfQuarter()
 
-	 $d = new msDateTime();
-	 // msDateTime uses a fluid interface for chaining methods
-    $d->firstDayOfWeek()->beginningOfDay()->setWaypoint('start');
-	 $d->finalDayOfWeek()->endOfDay()->setWaypoint('end');
-	 var_dump($d->waypoint('start')->dump(), $d->waypoint('start')->getTimestamp());
-	 // string(31) "Sun, 14 Aug 2011 00:00:00 -0500"
-	 // int(1313298000)
-	 var_dump($d->waypoint('end')->dump(), $d->waypoint('end')->getTimestamp());
-	 // string(31) "Sat, 20 Aug 2011 23:59:59 -0500"
-	 // int(1313902799)
-	 var_dump($d->dump());
-	 // string(31) "Sat, 20 Aug 2011 23:59:59 -0500"
+###Tests
+* public function isBeginningOfDay()
+* public function isEndOfDay()
+* public function isFirstDayOfWeek()  //Returns true for Sunday
+* public function isFinalDayOfWeek()  //Returns true for Saturday
+* public function isFirstDayOfMonth()
+* public function isFinalDayOfMonth()
+* public function isFirstDayOfQuarter()
 
-These examples can be found in docs/examples.php and can be run with "php docs/examples.php"
+###Tests around now
+* public function isToday()
+* public function isTomorrow()
+* public function isYesterday()
+* public function isCurrentWeek()  //Uses ISO-8601 weeks Monday - Sunday
+* public function isCurrentMonth()
+* public function isCurrentYear()
+
+###Miscellaneous
+* public static function create($time = null, $object = null)  //Creates a new msDateTime object inline to preserve fluid calls
+* public function  __toString()  //Returns the current timestamp in "Y-m-d H:i:s" format
+* public function copy()
+* public function compare($msDateTime2)  //Compares this object to $msDateTime2 by returning the difference in seconds
+* public function dump()  //Outputs the current timestamp in a general format. Should only be used for debugging.
+* public function getQuarter()
+
+
+Examples can be found in docs/examples.php and can be run with "php docs/examples.php"
