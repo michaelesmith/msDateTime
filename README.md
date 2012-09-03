@@ -1,3 +1,5 @@
+[![Build Status](https://secure.travis-ci.org/michaelesmith/msDateTime.png)](http://secure.travis-ci.org/michaelesmith/msDateTime)
+
 README
 ======
 
