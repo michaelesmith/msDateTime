@@ -83,16 +83,6 @@ class DateTimeTest extends TestCase
      * @depends testConstruct
      * @depends testDump
      */
-    public function testStrToTime()
-    {
-        $d = new msDateTime($str = '2/5/1980 06:53:37');
-        $this->assertEquals(date('r', strtotime('2/5/1980 00:00:00')), $d->strtotime('00:00:00')->dump());
-    }
-
-    /**
-     * @depends testConstruct
-     * @depends testDump
-     */
     public function testBeginningOfDay()
     {
         $d = new msDateTime($str = '2/5/1980 06:53:37');
@@ -385,78 +375,92 @@ class DateTimeTest extends TestCase
 
     /**
      * @depends testConstruct
-     * @depends testDump
      */
-    public function testReset()
+    public function testIsToday()
     {
-        $d = new msDateTime($str = '2/5/1980 06:53:37');
-        $d->setTimestamp(time());
-        $d2 = $d->reset();
-        $this->assertEquals(date('r', strtotime($str)), $d->dump());
-        $this->assertSame($d, $d2);
+        $d1 = new msDateTime();
+        $d1->modify($offset = ' -' . floor($d1->format('H') / 2) . ' hours');
+        $d2 = new msDateTime('-1 day' . $offset);
+        $d3 = new msDateTime('+1 day' . $offset);
+
+        $this->assertTrue($d1->isToday(), 'true for today');
+        $this->assertFalse($d2->isToday(), 'false for yesterday');
+        $this->assertFalse($d3->isToday(), 'false for tomorrow');
     }
 
     /**
      * @depends testConstruct
-     * @depends testDump
      */
-    public function testSetWaypoint()
+    public function testIsTomorrow()
     {
-        $d = new msDateTime($str = '2/5/1980 06:53:37');
-        $d->setTimestamp(time());
-        $d2 = $d->setWaypoint('p1');
-        $this->assertEquals(date('r', strtotime($str)), $d->dump(), 'internal timestamp reset');
-        $this->assertEquals(date('r'), $d2->dump(), 'returned object maintained state');
-        $this->assertNotSame($d2, $d, 'returned object is not the same as original');
+        $d1 = new msDateTime();
+        $d1->modify($offset = ' -' . floor($d1->format('H') / 2) . ' hours');
+        $d2 = new msDateTime('-1 day' . $offset);
+        $d3 = new msDateTime('+1 day' . $offset);
+
+        $this->assertFalse($d1->isTomorrow(), 'false for today');
+        $this->assertFalse($d2->isTomorrow(), 'false for yesterday');
+        $this->assertTrue($d3->isTomorrow(), 'true for tomorrow');
     }
 
     /**
      * @depends testConstruct
-     * @depends testDump
      */
-    public function testSetWaypointNoReset()
+    public function testIsYesterday()
     {
-        $d = new msDateTime($str = '2/5/1980 06:53:37');
-        $d->setTimestamp(time());
-        $d2 = $d->setWaypoint('p1', false);
-        $this->assertEquals(date('r'), $d->dump(), 'internal timestamp not reset');
-        $this->assertEquals(date('r'), $d2->dump(), 'returned object maintained state');
-        $this->assertSame($d2, $d, 'returned object is the same as original');
+        $d1 = new msDateTime();
+        $d1->modify($offset = ' -' . floor($d1->format('H') / 2) . ' hours');
+        $d2 = new msDateTime('-1 day' . $offset);
+        $d3 = new msDateTime('+1 day' . $offset);
+
+        $this->assertFalse($d1->isYesterday(), 'false for today');
+        $this->assertTrue($d2->isYesterday(), 'true for yesterday');
+        $this->assertFalse($d3->isYesterday(), 'false for tomorrow');
     }
 
     /**
      * @depends testConstruct
-     * @depends testDump
-     * @depends testSetWaypoint
      */
-    public function testWaypoint()
+    public function testIsCurrentWeek()
     {
-        $d = new msDateTime($str = '2/5/1980 06:53:37');
-        $d1 = $d->setTimestamp($t1 = time())->setWaypoint('p1');
-        $d2 = $d->setTimestamp($t2 = strtotime('+1 month'))->setWaypoint('p2');
-        $d3 = $d->setTimestamp($t3 = strtotime('+1 year'))->setWaypoint('p3');
+        $d1 = new msDateTime();
+        $d1->modify($offset = ' -' . floor($d1->format('N') / 2) . ' days');
+        $d2 = new msDateTime('-7 days' . $offset);
+        $d3 = new msDateTime('+7 days' . $offset);
 
-        $this->assertEquals(date('r', $t1), $d1->dump());
+        $this->assertTrue($d1->isCurrentWeek(), 'true for this week');
+        $this->assertFalse($d2->isCurrentWeek(), 'false for last week');
+        $this->assertFalse($d3->isCurrentWeek(), 'false for next week');
+    }
 
-        $this->assertNotEquals($d1, $d);
-        $this->assertNotEquals($d2, $d);
-        $this->assertNotEquals($d3, $d);
+    /**
+     * @depends testConstruct
+     */
+    public function testIsCurrentMonth()
+    {
+        $d1 = new msDateTime();
+        $d1->modify($offset = ' -' . floor($d1->format('j') / 2) . ' days');
+        $d2 = new msDateTime('-1 month' . $offset);
+        $d3 = new msDateTime('+1 month' . $offset);
 
-        $this->assertEquals($d1->dump(), $d->waypoint('p1')->dump());
-        $this->assertEquals($d2->dump(), $d->waypoint('p2')->dump());
-        $this->assertEquals($d3->dump(), $d->waypoint('p3')->dump());
+        $this->assertTrue($d1->isCurrentMonth(), 'true for this month');
+        $this->assertFalse($d2->isCurrentMonth(), 'false for last month');
+        $this->assertFalse($d3->isCurrentMonth(), 'false for next month');
+    }
 
-        $this->assertNotSame($d1, $d, 'different object returned');
-        $this->assertNotSame($d2, $d, 'different object returned');
-        $this->assertNotSame($d3, $d, 'different object returned');
+    /**
+     * @depends testConstruct
+     */
+    public function testIsCurrentYear()
+    {
+        $d1 = new msDateTime();
+        $d1->modify($offset = ' -' . ceil($d1->format('z') / 2) . ' days');
+        $d2 = new msDateTime('-1 year' . $offset);
+        $d3 = new msDateTime('+1 year' . $offset);
 
-        $this->assertEquals(date('r', strtotime($str)), $d->dump(), 'internal timestamp unchanged');
-
-        $d2b = $d->setTimestamp(strtotime('-1 month'))->setWaypoint('p2');
-        $this->assertEquals($d2b->dump(), $d->waypoint('p2')->dump(), 'can overwirte waypoint');
-
-        $this->setExpectedException('RuntimeException', 'Undefined waypoint');
-        $d->waypoint('noExisit');
+        $this->assertTrue($d1->isCurrentYear(), 'true for this year');
+        $this->assertFalse($d2->isCurrentYear(), 'false for last week');
+        $this->assertFalse($d3->isCurrentYear(), 'false for next week');
     }
 
     /**

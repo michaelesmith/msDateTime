@@ -12,17 +12,6 @@ namespace MS\DateTime;
 class DateTime extends \DateTime
 {
     /**
-     * @var int
-     */
-    protected $initialTimestamp;
-
-    /**
-     *
-     * @var array (point name => int timestamp)
-     */
-    protected $waypoints = array();
-
-    /**
      * Creates a new msDateTime object
      *
      * @param  str          $time
@@ -42,7 +31,6 @@ class DateTime extends \DateTime
         } else {
             parent::__construct();
         }
-        $this->initialTimestamp = $this->getTimestamp();
     }
 
     /**
@@ -96,69 +84,6 @@ class DateTime extends \DateTime
     public function dump()
     {
         return $this->format('r');
-    }
-
-    /**
-     * Performs a strtotime transformation on the internal timestamp
-     *
-     * @link http://us.php.net/manual/en/function.strtotime.php
-     *
-     * @param  str        $str
-     * @return msDateTime
-     */
-    public function strtotime($str)
-    {
-        return $this->setTimestamp(strtotime($str, $this->getTimestamp()));
-    }
-
-    /**
-     * Resets the internal time stamp to the initial timestamp
-     *
-     * @return msDateTime
-     */
-    public function reset()
-    {
-        return $this->setTimestamp($this->initialTimestamp);
-    }
-
-    /**
-     * Sets a waypoint for to the current internal timestamp for future use
-     *
-     * @param  str        $point
-     * @param  bool       $reset = true Resets the internal timestamp and returns a copy.
-     * @return msDateTime
-     */
-    public function setWaypoint($point, $reset = true)
-    {
-        $this->waypoints[$point] = $this->getTimestamp();
-        if ($reset) {
-            $ret = $this->copy();
-            $this->reset();
-        } else {
-            $ret = $this;
-        }
-
-        return $ret;
-    }
-
-    /**
-     * Returns a copy of the msDateTime set to the waypoint given
-     *
-     * @throws RuntimeException if the point given is undefined
-     *
-     * @param  str        $point
-     * @return msDateTime
-     */
-    public function waypoint($point)
-    {
-        if (!isset($this->waypoints[$point])) {
-            throw new \RuntimeException(sprintf('Undefined waypoint: "%s" given', $point));
-        }
-
-        $ret = $this->copy();
-        $ret->setTimestamp($this->waypoints[$point]);
-
-        return $ret;
     }
 
     /**

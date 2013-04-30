@@ -1,4 +1,4 @@
-docs/coverage/*
+build/
 vendor/
 .idea
 build
