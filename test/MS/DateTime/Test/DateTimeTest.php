@@ -459,4 +459,84 @@ class DateTimeTest extends TestCase
         $d->waypoint('noExisit');
     }
 
+    /**
+     * @depends testConstruct
+     */
+    public function testBeginningOfHour()
+    {
+        $d = new msDateTime('2013-04-30 16:00:00');
+        $d->beginningOfHour();
+        $this->assertEquals('2013-04-30 16:00:00', $d->format('Y-m-d H:i:s'));
+
+        $d = new msDateTime('2013-04-30 16:00:01');
+        $d->beginningOfHour();
+        $this->assertEquals('2013-04-30 16:00:00', $d->format('Y-m-d H:i:s'));
+
+        $d = new msDateTime('2013-04-30 16:01:00');
+        $d->beginningOfHour();
+        $this->assertEquals('2013-04-30 16:00:00', $d->format('Y-m-d H:i:s'));
+
+        $d = new msDateTime('2013-04-30 16:59:59');
+        $d->beginningOfHour();
+        $this->assertEquals('2013-04-30 16:00:00', $d->format('Y-m-d H:i:s'));
+    }
+
+    /**
+     * @depends testConstruct
+     */
+    public function testIsBeginningOfHour()
+    {
+        $d = new msDateTime('2013-04-30 16:00:00');
+        $this->assertTrue($d->isBeginningOfHour());
+
+        $d = new msDateTime('2013-04-30 16:00:01');
+        $this->assertFalse($d->isBeginningOfHour());
+
+        $d = new msDateTime('2013-04-30 16:01:00');
+        $this->assertFalse($d->isBeginningOfHour());
+
+        $d = new msDateTime('2013-04-30 16:59:59');
+        $this->assertFalse($d->isBeginningOfHour());
+    }
+
+    /**
+     * @depends testConstruct
+     */
+    public function testEndOfHour()
+    {
+        $d = new msDateTime('2013-04-30 16:00:00');
+        $d->endOfHour();
+        $this->assertEquals('2013-04-30 16:59:59', $d->format('Y-m-d H:i:s'));
+
+        $d = new msDateTime('2013-04-30 16:00:01');
+        $d->endOfHour();
+        $this->assertEquals('2013-04-30 16:59:59', $d->format('Y-m-d H:i:s'));
+
+        $d = new msDateTime('2013-04-30 16:01:00');
+        $d->endOfHour();
+        $this->assertEquals('2013-04-30 16:59:59', $d->format('Y-m-d H:i:s'));
+
+        $d = new msDateTime('2013-04-30 16:59:59');
+        $d->endOfHour();
+        $this->assertEquals('2013-04-30 16:59:59', $d->format('Y-m-d H:i:s'));
+    }
+
+    /**
+     * @depends testConstruct
+     */
+    public function testIsEndOfHour()
+    {
+        $d = new msDateTime('2013-04-30 16:00:00');
+        $this->assertFalse($d->isEndOfHour());
+
+        $d = new msDateTime('2013-04-30 16:00:01');
+        $this->assertFalse($d->isEndOfHour());
+
+        $d = new msDateTime('2013-04-30 16:01:00');
+        $this->assertFalse($d->isEndOfHour());
+
+        $d = new msDateTime('2013-04-30 16:59:59');
+        $this->assertTrue($d->isEndOfHour());
+    }
+
 }
