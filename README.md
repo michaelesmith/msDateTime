@@ -91,6 +91,3 @@ Complete list of methods
 * public function compare($msDateTime2)  //Compares this object to $msDateTime2 by returning the difference in seconds
 * public function dump()  //Outputs the current timestamp in a general format. Should only be used for debugging.
 * public function getQuarter()
-
-
-Examples can be found in docs/examples.php and can be run with "php docs/examples.php"
