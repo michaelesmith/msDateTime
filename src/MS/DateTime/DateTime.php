@@ -14,9 +14,9 @@ class DateTime extends \DateTime
     /**
      * Creates a new msDateTime object
      *
-     * @param  str          $time
-     * @param  DateTimeZone $object
-     * @return msDateTime
+     * @param  string       $time
+     * @param  \DateTimeZone $object
+     * @return \MS\DateTime\DateTime
      */
     public function __construct($time = null, $object = null)
     {
@@ -36,9 +36,9 @@ class DateTime extends \DateTime
     /**
      * Creates a new msDateTime object inline to preserve fluid calls
      *
-     * @param  str          $time
-     * @param  DateTimeZone $object
-     * @return msDateTime
+     * @param  string       $time
+     * @param  \DateTimeZone $object
+     * @return \MS\DateTime\DateTime
      */
     public static function create($time = null, $object = null)
     {
@@ -48,7 +48,7 @@ class DateTime extends \DateTime
     /**
      * Returns the current timestamp in "Y-m-d H:i:s" format
      *
-     * @return str
+     * @return string
      */
     public function  __toString()
     {
@@ -58,7 +58,7 @@ class DateTime extends \DateTime
     /**
      * Creates a copy of the current object
      *
-     * @return msDateTime
+     * @return \MS\DateTime\DateTime
      */
     public function copy()
     {
@@ -68,7 +68,7 @@ class DateTime extends \DateTime
     /**
      * Compares this object to $msDateTime2 by returning the difference in seconds
      *
-     * @param  msDateTime $msDateTime2
+     * @param  \MS\DateTime\DateTime $msDateTime2
      * @return int
      */
     public function compare($msDateTime2)
@@ -79,7 +79,7 @@ class DateTime extends \DateTime
     /**
      * Outputs the current timestamp in a general format. Should only be used for debugging.
      *
-     * @return str
+     * @return string
      */
     public function dump()
     {
@@ -89,7 +89,7 @@ class DateTime extends \DateTime
     /**
      * Sets the internal timestamp to midnight of the current day
      *
-     * @return msDateTime
+     * @return \MS\DateTime\DateTime
      */
     public function beginningOfDay()
     {
@@ -99,7 +99,7 @@ class DateTime extends \DateTime
     /**
      * Returns true if the current timestamp is the beginning of the day
      *
-     * @return bool
+     * @return boolean
      */
     public function isBeginningOfDay()
     {
@@ -109,7 +109,7 @@ class DateTime extends \DateTime
     /**
      * Sets the internal timestamp to one second before midnight
      *
-     * @return msDateTime
+     * @return \MS\DateTime\DateTime
      */
     public function endOfDay()
     {
@@ -119,7 +119,7 @@ class DateTime extends \DateTime
     /**
      * Returns true if the current timestamp is the end of the day
      *
-     * @return bool
+     * @return boolean
      */
     public function isEndOfDay()
     {
@@ -129,7 +129,7 @@ class DateTime extends \DateTime
     /**
      * Sets the internal timestamp to Sunday of the current week
      *
-     * @return msDateTime
+     * @return \MS\DateTime\DateTime
      */
     public function firstDayOfWeek()
     {
@@ -139,7 +139,7 @@ class DateTime extends \DateTime
     /**
      * Returns true if the current timestamp is the first day of the week
      *
-     * @return bool
+     * @return boolean
      */
     public function isFirstDayOfWeek()
     {
@@ -149,7 +149,7 @@ class DateTime extends \DateTime
     /**
      * Sets the internal timestamp to Saturday of the current week
      *
-     * @return msDateTime
+     * @return \MS\DateTime\DateTime
      */
     public function finalDayOfWeek()
     {
@@ -159,7 +159,7 @@ class DateTime extends \DateTime
     /**
      * Returns true if the current timestamp is the final day of the week
      *
-     * @return bool
+     * @return boolean
      */
     public function isFinalDayOfWeek()
     {
@@ -169,7 +169,7 @@ class DateTime extends \DateTime
     /**
      * Sets the internal timestamp to the first day of the curent month
      *
-     * @return msDateTime
+     * @return \MS\DateTime\DateTime
      */
     public function firstDayOfMonth()
     {
@@ -179,7 +179,7 @@ class DateTime extends \DateTime
     /**
      * Returns true if the current timestamp is the first day of the month
      *
-     * @return bool
+     * @return boolean
      */
     public function isFirstDayOfMonth()
     {
@@ -189,7 +189,7 @@ class DateTime extends \DateTime
     /**
      * Sets the internal timestamp to the last day of the current month
      *
-     * @return msDateTime
+     * @return \MS\DateTime\DateTime
      */
     public function finalDayOfMonth()
     {
@@ -199,7 +199,7 @@ class DateTime extends \DateTime
     /**
      * Returns true if the current timestamp is the final day of the month
      *
-     * @return bool
+     * @return boolean
      */
     public function isFinalDayOfMonth()
     {
@@ -209,7 +209,7 @@ class DateTime extends \DateTime
     /**
      * Returns the current quarter number (1, 2, 3 or 4)
      *
-     * @return int
+     * @return integer
      */
     public function getQuarter()
     {
@@ -219,7 +219,7 @@ class DateTime extends \DateTime
     /**
      * Sets the internal timestamp to the first day of the current quarter (1/1, 4/1, 7/1 or 10/1)
      *
-     * @return msDateTime
+     * @return \MS\DateTime\DateTime
      */
     public function firstDayOfQuarter()
     {
@@ -229,7 +229,7 @@ class DateTime extends \DateTime
     /**
      * Returns true if the current timestamp is the first day of the current quarter
      *
-     * @return bool
+     * @return boolean
      */
     public function isFirstDayOfQuarter()
     {
@@ -239,7 +239,7 @@ class DateTime extends \DateTime
     /**
      * Sets the internal timestamp to the last day of the current quarter (3/31, 6/30, 9/30 or 12/31)
      *
-     * @return msDateTime
+     * @return \MS\DateTime\DateTime
      */
     public function finalDayOfQuarter()
     {
@@ -249,7 +249,7 @@ class DateTime extends \DateTime
     /**
      * Returns true if the current timestamp is the final day of the current quarter
      *
-     * @return bool
+     * @return boolean
      */
     public function isFinalDayOfQuarter()
     {
@@ -257,7 +257,7 @@ class DateTime extends \DateTime
     }
 
     /**
-     * @return bool
+     * @return boolean
      */
     public function isToday()
     {
@@ -267,7 +267,7 @@ class DateTime extends \DateTime
     }
 
     /**
-     * @return bool
+     * @return boolean
      */
     public function isTomorrow()
     {
@@ -277,7 +277,7 @@ class DateTime extends \DateTime
     }
 
     /**
-     * @return bool
+     * @return boolean
      */
     public function isYesterday()
     {
@@ -289,7 +289,7 @@ class DateTime extends \DateTime
     /**
      * Uses ISO-8601 weeks Monday - Sunday
      *
-     * @return bool
+     * @return boolean
      */
     public function isCurrentWeek()
     {
@@ -299,7 +299,7 @@ class DateTime extends \DateTime
     }
 
     /**
-     * @return bool
+     * @return boolean
      */
     public function isCurrentMonth()
     {
@@ -309,7 +309,7 @@ class DateTime extends \DateTime
     }
 
     /**
-     * @return bool
+     * @return boolean
      */
     public function isCurrentYear()
     {
@@ -321,7 +321,7 @@ class DateTime extends \DateTime
     /**
      * Sets the internal timestamp to beginning of the current hour
      *
-     * @return msDateTime
+     * @return \MS\DateTime\DateTime
      */
     public function beginningOfHour()
     {
@@ -329,7 +329,7 @@ class DateTime extends \DateTime
     }
 
     /**
-     * @return bool
+     * @return boolean
      */
     public function isBeginningOfHour()
     {
@@ -339,7 +339,7 @@ class DateTime extends \DateTime
     /**
      * Sets the internal timestamp to end of the current hour
      *
-     * @return msDateTime
+     * @return \MS\DateTime\DateTime
      */
     public function endOfHour()
     {
@@ -347,7 +347,7 @@ class DateTime extends \DateTime
     }
 
     /**
-     * @return bool
+     * @return boolean
      */
     public function isEndOfHour()
     {

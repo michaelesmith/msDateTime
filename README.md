@@ -1,4 +1,5 @@
 [![Build Status](https://secure.travis-ci.org/michaelesmith/msDateTime.png)](http://secure.travis-ci.org/michaelesmith/msDateTime)
+[![SensioLabsInsight](https://insight.sensiolabs.com/projects/118fd162-4b36-4ba4-975f-1324c45231c1/mini.png)](https://insight.sensiolabs.com/projects/118fd162-4b36-4ba4-975f-1324c45231c1)
 
 README
 ======
